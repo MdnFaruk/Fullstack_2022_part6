@@ -13,7 +13,6 @@ const Notification = () => {
   }
   
   setTimeout(() => dispatch(removeNotification()) ,5000)
-
   return (
     <div style={style}>
       {notification}

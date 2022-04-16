@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const anecdotesAtStart = [
+/* const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
   'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
@@ -17,7 +17,7 @@ const asObject = (anecdote) => {
     id: getId(),
     votes: 0
   }
-}
+} */
 
 /* export const addVote = (id) =>{
   return {
@@ -33,7 +33,7 @@ export const createAnecdote = (anecdote) => {
   }
 } */
 
-const initialState = anecdotesAtStart.map(asObject)
+//const initialState = anecdotesAtStart.map(asObject)
 
 /* const reducer = (state = initialState, action) => {
   switch(action.type){
@@ -52,23 +52,26 @@ const initialState = anecdotesAtStart.map(asObject)
 
 const anecdoteSlice = createSlice({
   name: 'anecdotes',
-  initialState,
+  initialState: [],
   reducers: { 
     createAnecdote(state, action) { 
-      const anecdote = asObject(action.payload)
-      /* return [...state, anecdote] */
+      const anecdote = action.payload
       state.push(anecdote)
     },
     addVote(state,action){
-      const id = action.payload
-      const findAnecdote = state.find(anecdote => anecdote.id === id)
-      const changedAnecdoteVote = {...findAnecdote, votes: findAnecdote.votes + 1 }
-      return state.map(anecdote => anecdote.id !== id ? anecdote : changedAnecdoteVote)
+      const changedAnecdoteVote = action.payload
+      return state.map(anecdote => anecdote.id !== changedAnecdoteVote.id ? anecdote : changedAnecdoteVote)
     },
-    
+    appendAnecdotes(state, action){
+      state.push(...action.payload)
+
+    },
+    setAnecdotes(state, action){
+      return action.payload
+    }
   }
 })
 
-export const { createAnecdote, addVote, notificationReducer } = anecdoteSlice.actions
+export const { createAnecdote, addVote, notificationReducer, appendAnecdotes, setAnecdotes } = anecdoteSlice.actions
 export default anecdoteSlice.reducer
 /* export default reducer */
